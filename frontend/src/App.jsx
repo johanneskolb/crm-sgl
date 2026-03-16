@@ -564,7 +564,7 @@ export default function App() {
               {lecturers.map((item) => (
                 <tr key={item.id} style={{
                   borderLeft: `6px solid ${item.is_active ? '#10b981' : '#d1d5db'}`,
-                  background: item.is_active ? 'rgba(16, 185, 129, 0.03)' : 'transparent'
+                  background: item.is_active ? 'rgba(16, 185, 129, 0.08)' : 'transparent'
                 }}>
                   <td>{item.name}</td>
                   <td>{item.organization || '-'}</td>

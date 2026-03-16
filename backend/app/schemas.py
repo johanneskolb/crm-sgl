@@ -148,6 +148,7 @@ class LecturerUpdate(BaseModel):
     teaches_english: bool | None = None
     lectures_held: str | None = None
     focus_topics: str | None = None
+    is_active: bool | None = None
     is_alumni_student: bool | None = None
     alumni_student_id: int | None = None
 
