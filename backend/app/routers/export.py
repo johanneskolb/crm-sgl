@@ -19,6 +19,7 @@ EXPORT_QUERIES = {
     "students_alumni": "SELECT * FROM students_alumni",
     "status_history": "SELECT * FROM status_history",
     "webhook_events": "SELECT * FROM webhook_events",
+    "notes_ideas": "SELECT * FROM notes_ideas",
 }
 
 

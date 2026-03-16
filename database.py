@@ -6,7 +6,7 @@ import csv
 import sqlite3
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 
 PARTNER_STATUSES = (
@@ -15,9 +15,19 @@ PARTNER_STATUSES = (
     "Verhandlung",
     "Aktiver Partner",
     "Alumni",
+    "Alumni IRM",
 )
 
 STUDENT_STATUSES = ("Aktiv", "Alumni")
+
+LECTURER_AFFILIATIONS = ("Company", "University")
+LECTURER_QUALITY_EVALUATIONS = (
+    "excellent",
+    "good",
+    "average",
+    "poor",
+    "not_evaluated",
+)
 
 
 class Database:
@@ -68,11 +78,23 @@ class Database:
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
                 contact TEXT NOT NULL,
-                expertise TEXT NOT NULL,
+                nationality TEXT NOT NULL DEFAULT '',
+                affiliation TEXT NOT NULL DEFAULT '',
+                professional_experience TEXT NOT NULL DEFAULT '',
+                remarks TEXT NOT NULL DEFAULT '',
+                quality_evaluation TEXT NOT NULL DEFAULT 'not_evaluated',
+                contact_from TEXT NOT NULL DEFAULT '',
                 can_lecture INTEGER NOT NULL,
                 can_supervise INTEGER NOT NULL,
                 lectures_held TEXT NOT NULL DEFAULT '',
                 focus_topics TEXT NOT NULL DEFAULT '',
+                did_not_lecture_yet_but_interested INTEGER NOT NULL DEFAULT 0,
+                did_not_supervise_yet_but_interested INTEGER NOT NULL DEFAULT 0,
+                teaches_german INTEGER NOT NULL DEFAULT 0,
+                teaches_english INTEGER NOT NULL DEFAULT 0,
+                can_guest_lecture_only INTEGER NOT NULL DEFAULT 0,
+                is_alumni_student INTEGER NOT NULL DEFAULT 0,
+                alumni_student_id INTEGER,
                 created_at TEXT NOT NULL,
                 updated_at TEXT NOT NULL
             )
@@ -88,7 +110,22 @@ class Database:
                 company TEXT NOT NULL,
                 status TEXT NOT NULL,
                 lecturer_potential INTEGER NOT NULL,
+                became_lecturer INTEGER NOT NULL DEFAULT 0,
                 notes TEXT NOT NULL DEFAULT '',
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL
+            )
+            """
+        )
+
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS notes_ideas (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                title TEXT NOT NULL,
+                content TEXT NOT NULL,
+                note_date TEXT NOT NULL,
+                tags TEXT NOT NULL DEFAULT '',
                 created_at TEXT NOT NULL,
                 updated_at TEXT NOT NULL
             )
@@ -108,6 +145,72 @@ class Database:
             )
             """
         )
+
+        self.conn.commit()
+        self._migrate_schema()
+
+    def _column_exists(self, table: str, column: str) -> bool:
+        cursor = self.conn.cursor()
+        rows = cursor.execute(f"PRAGMA table_info({table})").fetchall()
+        return any(row[1] == column for row in rows)
+
+    def _add_column(self, table: str, column: str, definition: str) -> None:
+        cursor = self.conn.cursor()
+        cursor.execute(f"ALTER TABLE {table} ADD COLUMN {column} {definition}")
+
+    def _migrate_schema(self) -> None:
+        # Partnerunternehmen: keine neuen Spalten aktuell
+        # Lecturer Migrationen
+        lecturer_columns = {
+            "nationality": "TEXT NOT NULL DEFAULT ''",
+            "affiliation": "TEXT NOT NULL DEFAULT ''",
+            "professional_experience": "TEXT NOT NULL DEFAULT ''",
+            "remarks": "TEXT NOT NULL DEFAULT ''",
+            "quality_evaluation": "TEXT NOT NULL DEFAULT 'not_evaluated'",
+            "contact_from": "TEXT NOT NULL DEFAULT ''",
+            "did_not_lecture_yet_but_interested": "INTEGER NOT NULL DEFAULT 0",
+            "did_not_supervise_yet_but_interested": "INTEGER NOT NULL DEFAULT 0",
+            "teaches_german": "INTEGER NOT NULL DEFAULT 0",
+            "teaches_english": "INTEGER NOT NULL DEFAULT 0",
+            "can_guest_lecture_only": "INTEGER NOT NULL DEFAULT 0",
+            "is_alumni_student": "INTEGER NOT NULL DEFAULT 0",
+            "alumni_student_id": "INTEGER",
+        }
+        for column, definition in lecturer_columns.items():
+            if not self._column_exists("lecturers", column):
+                self._add_column("lecturers", column, definition)
+
+        # Migration expertise -> professional_experience (falls alte Spalte vorhanden)
+        if self._column_exists("lecturers", "expertise"):
+            cursor = self.conn.cursor()
+            cursor.execute(
+                """
+                UPDATE lecturers
+                SET professional_experience = COALESCE(NULLIF(professional_experience, ''), expertise)
+                WHERE expertise IS NOT NULL AND expertise != ''
+                """
+            )
+
+        # Students: became_lecturer Spalte
+        if not self._column_exists("students_alumni", "became_lecturer"):
+            self._add_column("students_alumni", "became_lecturer", "INTEGER NOT NULL DEFAULT 0")
+
+        # Notes & Ideas: Tabelle kann fehlen
+        if not self._column_exists("notes_ideas", "id"):
+            cursor = self.conn.cursor()
+            cursor.execute(
+                """
+                CREATE TABLE IF NOT EXISTS notes_ideas (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    title TEXT NOT NULL,
+                    content TEXT NOT NULL,
+                    note_date TEXT NOT NULL,
+                    tags TEXT NOT NULL DEFAULT '',
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL
+                )
+                """
+            )
 
         self.conn.commit()
 
@@ -216,28 +319,62 @@ class Database:
         self,
         name: str,
         contact: str,
-        expertise: str,
+        nationality: str,
+        affiliation: str,
+        professional_experience: str,
+        remarks: str,
+        quality_evaluation: str,
+        contact_from: str,
         can_lecture: bool,
         can_supervise: bool,
         lectures_held: str,
         focus_topics: str,
+        did_not_lecture_yet_but_interested: bool,
+        did_not_supervise_yet_but_interested: bool,
+        teaches_german: bool,
+        teaches_english: bool,
+        can_guest_lecture_only: bool,
+        is_alumni_student: bool,
+        alumni_student_id: Optional[int],
     ) -> int:
+        if affiliation and affiliation not in LECTURER_AFFILIATIONS:
+            raise ValueError("Ungueltige Zugehoerigkeit")
+        if quality_evaluation not in LECTURER_QUALITY_EVALUATIONS:
+            raise ValueError("Ungueltige Qualitaetseinschaetzung")
         now = self._now()
         cursor = self.conn.cursor()
         cursor.execute(
             """
             INSERT INTO lecturers
-            (name, contact, expertise, can_lecture, can_supervise, lectures_held, focus_topics, created_at, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            (
+                name, contact, nationality, affiliation, professional_experience, remarks,
+                quality_evaluation, contact_from, can_lecture, can_supervise,
+                lectures_held, focus_topics, did_not_lecture_yet_but_interested,
+                did_not_supervise_yet_but_interested, teaches_german, teaches_english,
+                can_guest_lecture_only, is_alumni_student, alumni_student_id, created_at, updated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 name,
                 contact,
-                expertise,
+                nationality,
+                affiliation,
+                professional_experience,
+                remarks,
+                quality_evaluation,
+                contact_from,
                 int(can_lecture),
                 int(can_supervise),
                 lectures_held,
                 focus_topics,
+                int(did_not_lecture_yet_but_interested),
+                int(did_not_supervise_yet_but_interested),
+                int(teaches_german),
+                int(teaches_english),
+                int(can_guest_lecture_only),
+                int(is_alumni_student),
+                alumni_student_id,
                 now,
                 now,
             ),
@@ -257,10 +394,12 @@ class Database:
             """
             SELECT *
             FROM lecturers
-            WHERE name LIKE ? OR contact LIKE ? OR expertise LIKE ? OR lectures_held LIKE ? OR focus_topics LIKE ?
+            WHERE name LIKE ? OR contact LIKE ?
+                OR professional_experience LIKE ?
+                OR lectures_held LIKE ? OR focus_topics LIKE ? OR remarks LIKE ?
             ORDER BY name ASC
             """,
-            (pattern, pattern, pattern, pattern, pattern),
+            (pattern, pattern, pattern, pattern, pattern, pattern),
         ).fetchall()
         return self._rows_to_dicts(rows)
 
@@ -271,7 +410,9 @@ class Database:
         company: str,
         status: str,
         lecturer_potential: bool,
+        became_lecturer: bool,
         notes: str,
+        lecturer_payload: Optional[dict[str, Any]] = None,
     ) -> int:
         if status not in STUDENT_STATUSES:
             raise ValueError("Ungueltiger Studierenden-Status")
@@ -280,13 +421,53 @@ class Database:
         cursor.execute(
             """
             INSERT INTO students_alumni
-            (name, cohort, company, status, lecturer_potential, notes, created_at, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            (name, cohort, company, status, lecturer_potential, became_lecturer, notes, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
-            (name, cohort, company, status, int(lecturer_potential), notes, now, now),
+            (
+                name,
+                cohort,
+                company,
+                status,
+                int(lecturer_potential),
+                int(became_lecturer),
+                notes,
+                now,
+                now,
+            ),
         )
+        student_id = int(cursor.lastrowid)
+
+        if became_lecturer:
+            payload = lecturer_payload or {}
+            self.create_lecturer(
+                name=name,
+                contact=payload.get("contact", ""),
+                nationality=payload.get("nationality", ""),
+                affiliation=payload.get("affiliation", ""),
+                professional_experience=payload.get("professional_experience", ""),
+                remarks=payload.get("remarks", ""),
+                quality_evaluation=payload.get("quality_evaluation", "not_evaluated"),
+                contact_from=payload.get("contact_from", ""),
+                can_lecture=payload.get("can_lecture", False),
+                can_supervise=payload.get("can_supervise", False),
+                lectures_held=payload.get("lectures_held", ""),
+                focus_topics=payload.get("focus_topics", ""),
+                did_not_lecture_yet_but_interested=payload.get(
+                    "did_not_lecture_yet_but_interested", True
+                ),
+                did_not_supervise_yet_but_interested=payload.get(
+                    "did_not_supervise_yet_but_interested", True
+                ),
+                teaches_german=payload.get("teaches_german", False),
+                teaches_english=payload.get("teaches_english", False),
+                can_guest_lecture_only=payload.get("can_guest_lecture_only", False),
+                is_alumni_student=True,
+                alumni_student_id=student_id,
+            )
+
         self.conn.commit()
-        return int(cursor.lastrowid)
+        return student_id
 
     def list_students(self) -> list[dict[str, Any]]:
         cursor = self.conn.cursor()
@@ -345,6 +526,58 @@ class Database:
         ).fetchall()
         return self._rows_to_dicts(rows)
 
+    def create_note(self, title: str, content: str, note_date: str, tags: str) -> int:
+        now = self._now()
+        cursor = self.conn.cursor()
+        cursor.execute(
+            """
+            INSERT INTO notes_ideas (title, content, note_date, tags, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            (title, content, note_date, tags, now, now),
+        )
+        self.conn.commit()
+        return int(cursor.lastrowid)
+
+    def list_notes(self) -> list[dict[str, Any]]:
+        cursor = self.conn.cursor()
+        rows = cursor.execute(
+            "SELECT * FROM notes_ideas ORDER BY note_date DESC, updated_at DESC"
+        ).fetchall()
+        return self._rows_to_dicts(rows)
+
+    def search_notes(self, query: str) -> list[dict[str, Any]]:
+        pattern = f"%{query.strip()}%"
+        cursor = self.conn.cursor()
+        rows = cursor.execute(
+            """
+            SELECT *
+            FROM notes_ideas
+            WHERE title LIKE ? OR content LIKE ? OR tags LIKE ?
+            ORDER BY note_date DESC, updated_at DESC
+            """,
+            (pattern, pattern, pattern),
+        ).fetchall()
+        return self._rows_to_dicts(rows)
+
+    def update_note(self, note_id: int, title: str, content: str, note_date: str, tags: str) -> None:
+        now = self._now()
+        cursor = self.conn.cursor()
+        cursor.execute(
+            """
+            UPDATE notes_ideas
+            SET title = ?, content = ?, note_date = ?, tags = ?, updated_at = ?
+            WHERE id = ?
+            """,
+            (title, content, note_date, tags, now, note_id),
+        )
+        self.conn.commit()
+
+    def delete_note(self, note_id: int) -> None:
+        cursor = self.conn.cursor()
+        cursor.execute("DELETE FROM notes_ideas WHERE id = ?", (note_id,))
+        self.conn.commit()
+
     def export_csv(self, output_dir: str) -> list[str]:
         base = Path(output_dir)
         base.mkdir(parents=True, exist_ok=True)
@@ -354,6 +587,7 @@ class Database:
             "partner_contacts.csv": "SELECT * FROM partner_contacts",
             "lecturers.csv": "SELECT * FROM lecturers",
             "students_alumni.csv": "SELECT * FROM students_alumni",
+            "notes_ideas.csv": "SELECT * FROM notes_ideas",
             "status_history.csv": "SELECT * FROM status_history",
         }
 

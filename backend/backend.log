@@ -1,0 +1,68 @@
+INFO:     Started server process [177009]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:50996 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:0 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     193.197.8.134:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/dashboard HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/partners HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/lecturers HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/students HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/webhooks HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/notes HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "PUT /api/partners/1 HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/partners HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/dashboard HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/notes HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/students HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/lecturers HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/webhooks HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/dashboard HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/partners HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/lecturers HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/students HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/notes HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/webhooks HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/dashboard HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/partners HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/lecturers HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/students HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/webhooks HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/notes HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/dashboard HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/partners HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/lecturers HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/webhooks HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/students HTTP/1.1" 200 OK
+INFO:     193.197.8.134:0 - "GET /api/notes HTTP/1.1" 200 OK
+INFO:     127.0.0.1:0 - "GET /api/students HTTP/1.1" 401 Unauthorized
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [177009]
+INFO:     Started server process [522870]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:47344 - "GET /api/auth/me HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:58622 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58630 - "POST /api/notes HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58646 - "GET /api/lecturers?q=Prof HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58654 - "GET /api/notes HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58660 - "DELETE /api/notes/3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54060 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54064 - "GET /api/lecturers?q=Sortimentsgestaltung HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56082 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56094 - "GET /api/lecturers?q=Lebensmittelverschwendung HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56098 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56114 - "GET /api/lecturers?q=wissenschaftliche HTTP/1.1" 200 OK
+INFO:     Started server process [526036]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:59098 - "GET /api/auth/me HTTP/1.1" 401 Unauthorized

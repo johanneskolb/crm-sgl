@@ -8,6 +8,30 @@ from ..deps import require_editor_or_admin
 router = APIRouter(prefix="/api/students", tags=["students"])
 
 
+def _ensure_lecturer_from_student(db: Session, student: models.StudentAlumni) -> None:
+    if not student.became_lecturer:
+        return
+    existing = (
+        db.query(models.Lecturer)
+        .filter(models.Lecturer.alumni_student_id == student.id)
+        .first()
+    )
+    if existing:
+        return
+    lecturer = models.Lecturer(
+        name=student.name,
+        contact=student.company,
+        professional_experience="",
+        remarks=student.notes or "",
+        can_lecture=False,
+        can_guest_lecture_only=False,
+        can_supervise=False,
+        is_alumni_student=True,
+        alumni_student_id=student.id,
+    )
+    db.add(lecturer)
+
+
 @router.get("", response_model=list[schemas.StudentOut])
 def list_students(
     q: str | None = Query(default=None),
@@ -38,6 +62,9 @@ def create_student(
     db.add(record)
     db.commit()
     db.refresh(record)
+    if record.became_lecturer:
+        _ensure_lecturer_from_student(db, record)
+        db.commit()
     return record
 
 
@@ -57,6 +84,7 @@ def update_student(
         raise HTTPException(status_code=400, detail="Invalid student status")
 
     old_status = record.status
+    became_lecturer_before = record.became_lecturer
     for key, value in update_data.items():
         setattr(record, key, value)
 
@@ -70,6 +98,9 @@ def update_student(
                 note="Status updated via API",
             )
         )
+
+    if not became_lecturer_before and record.became_lecturer:
+        _ensure_lecturer_from_student(db, record)
 
     db.commit()
     db.refresh(record)
