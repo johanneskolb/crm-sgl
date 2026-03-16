@@ -1,0 +1,59 @@
+=== DEBUG: Import from single sheet ===
+
+Sheet: HD22A21 - 3. Semester 23/24
+Cohort: HD22A21
+
+✅ Got 37 rows
+
+✅ Header found at row 13
+
+Header:  | Modul | Veranstaltung | Kurzform | Dozent | CP | UE Soll | UE Plan | Gruppen-teilung | Delta | Kommentar
+
+Lecturer column: 5 (dozent)
+Course column: 3 (veranstaltung)
+
+  📝 Processing: Prof. Dr. Bodo Kluxen → HR-Management, Organization a. Project Management
+    🔍 Searching for: "Prof. Dr. Bodo Kluxen" → cleaned: "Bodo Kluxen"
+    📊 Query result: 29|Bodo Kluxen
+    ✅ Found lecturer ID: 29
+    ⚠️  Already exists (ID: 80)
+  📝 Processing: Olaf Vogée → International Logistics, Supply Chain and Marketing & Sales Management
+    🔍 Searching for: "Olaf Vogée" → cleaned: "Olaf Vogée"
+    📊 Query result: 40|Olaf Vogée
+    ✅ Found lecturer ID: 40
+    ⚠️  Already exists (ID: 81)
+  📝 Processing: Dr. Henrik Vogel → International Consumer Behavior
+    🔍 Searching for: "Dr. Henrik Vogel" → cleaned: "Henrik Vogel"
+    📊 Query result: 49|Henrik Vogel
+    ✅ Found lecturer ID: 49
+    ⚠️  Already exists (ID: 82)
+  📝 Processing: Prof. Dr. Johannes Kolb → Excursion Berlin
+    🔍 Searching for: "Prof. Dr. Johannes Kolb" → cleaned: "Johannes Kolb"
+    📊 Query result: 50|Johannes Kolb
+    ✅ Found lecturer ID: 50
+    ⚠️  Already exists (ID: 83)
+  📝 Processing: Prof. Dr. Johannes Kolb → Event Studies
+    🔍 Searching for: "Prof. Dr. Johannes Kolb" → cleaned: "Johannes Kolb"
+    📊 Query result: 50|Johannes Kolb
+    ✅ Found lecturer ID: 50
+    ⚠️  Already exists (ID: 84)
+  📝 Processing: Prof. Dr. Bodo Kluxen → Quantitative Marktforschung
+    🔍 Searching for: "Prof. Dr. Bodo Kluxen" → cleaned: "Bodo Kluxen"
+    📊 Query result: 29|Bodo Kluxen
+    ✅ Found lecturer ID: 29
+    ⚠️  Already exists (ID: 85)
+  📝 Processing: Dr. Dominika Kordela → Fundamentals of Finance and Financial Markets
+    🔍 Searching for: "Dr. Dominika Kordela" → cleaned: "Dominika Kordela"
+    📊 Query result: 107|Dominika Kordela
+    ✅ Found lecturer ID: 107
+    ⚠️  Already exists (ID: 86)
+  📝 Processing: Sabine Gessmann → Handels- und Gesellschaftsrecht, Grundzüge d. Arbeits- u. Insolvenzrechts
+    🔍 Searching for: "Sabine Gessmann" → cleaned: "Sabine Gessmann"
+    📊 Query result: 57|Sabine Gessmann
+    ✅ Found lecturer ID: 57
+    ⚠️  Already exists (ID: 87)
+
+=== Summary ===
+Imported: 0
+Conflicts: 8
+Skipped: 16

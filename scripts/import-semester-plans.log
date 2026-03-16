@@ -1,0 +1,52 @@
+=== Import Semester Plans - All Sheets ===
+
+🔍 Fetching files from Drive folders...
+
+
+📁 Folder: HD21A21 (1ufLLyL1yHlHRMyww47-OzrDDyYRF9d9b)
+Google API error (404 notFound): File not found: .
+❌ gog command failed: drive ls --parent=1ufLLyL1yHlHRMyww47-OzrDDyYRF9d9b --account kolb.hannes@gmail.com --json --max=100
+Command failed: gog drive ls --parent=1ufLLyL1yHlHRMyww47-OzrDDyYRF9d9b --account kolb.hannes@gmail.com --json --max=100
+Google API error (404 notFound): File not found: .
+
+  ❌ Failed to list files
+
+📁 Folder: HD22A21 (1N2r8_jJI8cR-R6NrfDdGDW2CZ6iwfcfb)
+Google API error (404 notFound): File not found: .
+❌ gog command failed: drive ls --parent=1N2r8_jJI8cR-R6NrfDdGDW2CZ6iwfcfb --account kolb.hannes@gmail.com --json --max=100
+Command failed: gog drive ls --parent=1N2r8_jJI8cR-R6NrfDdGDW2CZ6iwfcfb --account kolb.hannes@gmail.com --json --max=100
+Google API error (404 notFound): File not found: .
+
+  ❌ Failed to list files
+
+📁 Folder: HD23A23 (1-2Pjz8YTGQ8k-ybkroPHcyEIBQpqN-qv)
+Google API error (404 notFound): File not found: .
+❌ gog command failed: drive ls --parent=1-2Pjz8YTGQ8k-ybkroPHcyEIBQpqN-qv --account kolb.hannes@gmail.com --json --max=100
+Command failed: gog drive ls --parent=1-2Pjz8YTGQ8k-ybkroPHcyEIBQpqN-qv --account kolb.hannes@gmail.com --json --max=100
+Google API error (404 notFound): File not found: .
+
+  ❌ Failed to list files
+
+📁 Folder: HD24B21 (1HH_bwuQl2FGcFnYP2P4KBd-N1U7pNR-o)
+Google API error (404 notFound): File not found: .
+❌ gog command failed: drive ls --parent=1HH_bwuQl2FGcFnYP2P4KBd-N1U7pNR-o --account kolb.hannes@gmail.com --json --max=100
+Command failed: gog drive ls --parent=1HH_bwuQl2FGcFnYP2P4KBd-N1U7pNR-o --account kolb.hannes@gmail.com --json --max=100
+Google API error (404 notFound): File not found: .
+
+  ❌ Failed to list files
+
+📁 Folder: HD25A23 (1gRjyA8cHQDSFLR0Q4oJlk9JI6Q85Dn6j)
+Google API error (404 notFound): File not found: .
+❌ gog command failed: drive ls --parent=1gRjyA8cHQDSFLR0Q4oJlk9JI6Q85Dn6j --account kolb.hannes@gmail.com --json --max=100
+Command failed: gog drive ls --parent=1gRjyA8cHQDSFLR0Q4oJlk9JI6Q85Dn6j --account kolb.hannes@gmail.com --json --max=100
+Google API error (404 notFound): File not found: .
+
+  ❌ Failed to list files
+
+=== Summary ===
+Processed sheets: 0
+Imported courses: 0
+Skipped: 0
+Conflicts: 0
+
+✅ Import complete!

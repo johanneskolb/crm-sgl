@@ -562,7 +562,10 @@ export default function App() {
             </div>
             <table><thead><tr><th>{t('lecturers.name')}</th><th>{t('lecturers.organization')}</th><th>{t('lecturers.courses')}</th><th>{t('lecturers.focusTopics')}</th><th>{t('lecturers.languages')}</th><th>{t('lecturers.actions')}</th></tr></thead><tbody>
               {lecturers.map((item) => (
-                <tr key={item.id} style={{borderLeft: `4px solid ${item.is_active ? '#4caf50' : '#999'}`}}>
+                <tr key={item.id} style={{
+                  borderLeft: `6px solid ${item.is_active ? '#10b981' : '#d1d5db'}`,
+                  background: item.is_active ? 'rgba(16, 185, 129, 0.03)' : 'transparent'
+                }}>
                   <td>{item.name}</td>
                   <td>{item.organization || '-'}</td>
                   <td>{item.courses?.map(c => c.course_name).join(', ') || '-'}</td>

@@ -1,0 +1,210 @@
+=== Import Semester Plans - Direct Sheet IDs ===
+
+⚠️  WARNING: Only 3 sheets found (HD21A21 x2, HD22A21 x1)
+⚠️  Missing: HD23A23, HD24B21, HD25A23
+⚠️  Will search for additional sheets now...
+
+🔍 Searching for all HD semester sheets...
+
+✅ Found 18 additional sheets:
+
+  - HD23A21 - 6. Semester 25/26 (HD23A21)
+  - HD23A21 - 5. Semester 25/26 (HD23A21)
+  - HD23A23 - 6. Semester 25/26 (HD23A23)
+  - HD23A21 - 4. Semester 24/25 (HD23A21)
+  - HD23A21 - 3. Semester 24/25 (HD23A21)
+  - HD23A23 - 2. Semester 23/24 (HD23A23)
+  - HD23A23 - 1. Semester 23/24 (HD23A23)
+  - HD23A23 - 3. Semester 24/25 (HD23A23)
+  - HD24A23 - 4. Semester 25/26 - AUSLAND (HD24A23)
+  - HD24B21 - 3. Semester 25/26 (HD24B21)
+  - HD24B21 - 4. Semester 25/26 - Rhön im 5. Semester planen (HD24B21)
+  - Übersicht - IRM Insta Posts (HD24A23) (HD24A23)
+  - HD24A23: Besprechung Gliederung PAII (HD24A23)
+  - HD24A23 - Food Selection at Berliner Republik (HD24A23)
+  - HD24A23 Gruppen - Berlin Poster Präsentationen (HD24A23)
+  - HD24A23 + HIP: Room Allocation Berlin (HD24A23)
+  - HD25A23 - 2. Semester 25/26 (HD25A23)
+  - → T:eams Trends (HD25A23) (HD25A23)
+
+📊 Processing sheets...
+
+
+📋 Processing: HD21A21 - 6. Semester 23/24
+unexpected argument read
+❌ gog command failed: --account kolb.hannes@gmail.com sheets read 1DPLGh3HbRmAhwc1H-LgQP0OgGF7KLIxDN7YhZ0aUWx8 --json
+unexpected argument read
+
+  ⏭️  Skipped (read failed)
+
+📋 Processing: HD21A21 - 5. Semester 23/24
+unexpected argument read
+❌ gog command failed: --account kolb.hannes@gmail.com sheets read 15yXW0syz1KFTNMRp-ZOlktdYU3ma1MRZLsKnzQzR808 --json
+unexpected argument read
+
+  ⏭️  Skipped (read failed)
+
+📋 Processing: HD22A21 - 3. Semester 23/24
+unexpected argument read
+❌ gog command failed: --account kolb.hannes@gmail.com sheets read 1YZ1B9Vr6vczXVXjnSasMmg7fvhjvrkQVXChzYqpKOwU --json
+unexpected argument read
+
+  ⏭️  Skipped (read failed)
+
+📋 Processing: HD23A21 - 6. Semester 25/26
+unexpected argument read
+❌ gog command failed: --account kolb.hannes@gmail.com sheets read 1xtKs4NA_44_HE-nmENdnbQcXaNnsW5qMBotubIJWnJ8 --json
+unexpected argument read
+
+  ⏭️  Skipped (read failed)
+
+📋 Processing: HD23A21 - 5. Semester 25/26
+unexpected argument read
+❌ gog command failed: --account kolb.hannes@gmail.com sheets read 1z3lR8QNIgxkUXz2V0tP6LP7dsfKSPAOPKE77gYVngZc --json
+unexpected argument read
+
+  ⏭️  Skipped (read failed)
+
+📋 Processing: HD23A23 - 6. Semester 25/26
+unexpected argument read
+❌ gog command failed: --account kolb.hannes@gmail.com sheets read 1kLrrUHFH3PEBUELpVV-n6C2-ebouoxW-Efzi3af24mY --json
+unexpected argument read
+
+  ⏭️  Skipped (read failed)
+
+📋 Processing: HD23A21 - 4. Semester 24/25
+unexpected argument read
+❌ gog command failed: --account kolb.hannes@gmail.com sheets read 1NtH7TBtKp08nbSURg_Mh5nrOEA4Oa9OpG5uEpiOvDYo --json
+unexpected argument read
+
+  ⏭️  Skipped (read failed)
+
+📋 Processing: HD23A21 - 3. Semester 24/25
+unexpected argument read
+❌ gog command failed: --account kolb.hannes@gmail.com sheets read 1lhlmslk5TTyQLiv9sRKxLMj1fVYgj59Phb1voZtVSfM --json
+unexpected argument read
+
+  ⏭️  Skipped (read failed)
+
+📋 Processing: HD23A23 - 2. Semester 23/24
+unexpected argument read
+❌ gog command failed: --account kolb.hannes@gmail.com sheets read 1WW7xiJa9v5xh0HAOLFAaTaU28QY-lhuuXHVJRaFFuKU --json
+unexpected argument read
+
+  ⏭️  Skipped (read failed)
+
+📋 Processing: HD23A23 - 1. Semester 23/24
+unexpected argument read
+❌ gog command failed: --account kolb.hannes@gmail.com sheets read 1v60oRU74L8ZakT9QO_06bDKoSMUecdeGfcY6wzy-oFw --json
+unexpected argument read
+
+  ⏭️  Skipped (read failed)
+
+📋 Processing: HD23A23 - 3. Semester 24/25
+unexpected argument read
+❌ gog command failed: --account kolb.hannes@gmail.com sheets read 18Wo1H8dhHdZYgNT-9qK9RS5jBpKM-4XSEEV816s5BT0 --json
+unexpected argument read
+
+  ⏭️  Skipped (read failed)
+
+📋 Processing: HD24A23 - 4. Semester 25/26 - AUSLAND
+unexpected argument read
+❌ gog command failed: --account kolb.hannes@gmail.com sheets read 1ijrsWuTpPMHjmW_gdZkrgxWeSNHVDhsBQCb7Q6bEbRc --json
+unexpected argument read
+
+  ⏭️  Skipped (read failed)
+
+📋 Processing: HD24B21 - 3. Semester 25/26
+unexpected argument read
+❌ gog command failed: --account kolb.hannes@gmail.com sheets read 12JYossx22THTP6l9DuyDijH8R_k6FSwlfx0zATTkfA8 --json
+unexpected argument read
+
+  ⏭️  Skipped (read failed)
+
+📋 Processing: HD24B21 - 4. Semester 25/26 - Rhön im 5. Semester planen
+unexpected argument read
+❌ gog command failed: --account kolb.hannes@gmail.com sheets read 1A3V0JOVKth_gYvbM31VT-tEJhKNyvdTtRvk6lqJ9MsQ --json
+unexpected argument read
+
+  ⏭️  Skipped (read failed)
+
+📋 Processing: Übersicht - IRM Insta Posts (HD24A23)
+unexpected argument read
+❌ gog command failed: --account kolb.hannes@gmail.com sheets read 1QlF559pRgK8x0966aSD6k260NUWEaeClAsF0NZU-38w --json
+unexpected argument read
+
+  ⏭️  Skipped (read failed)
+
+📋 Processing: HD24A23: Besprechung Gliederung PAII
+unexpected argument read
+❌ gog command failed: --account kolb.hannes@gmail.com sheets read 19xNhIXprp6hGc9_pMh2_vT622DRNG7bUFp5bfXFSV_0 --json
+unexpected argument read
+
+  ⏭️  Skipped (read failed)
+
+📋 Processing: HD24A23 - Food Selection at Berliner Republik
+unexpected argument read
+❌ gog command failed: --account kolb.hannes@gmail.com sheets read 1Zalhs6rxM0yHQzuZB4BZY6chUphh8pJbxrR7ZOeCyrE --json
+unexpected argument read
+
+  ⏭️  Skipped (read failed)
+
+📋 Processing: HD24A23 Gruppen - Berlin Poster Präsentationen
+unexpected argument read
+❌ gog command failed: --account kolb.hannes@gmail.com sheets read 1PvcT3zJaWIylFRSr9zZd8nFU_rx9WJiv-GGBirBP8VM --json
+unexpected argument read
+
+  ⏭️  Skipped (read failed)
+
+📋 Processing: HD24A23 + HIP: Room Allocation Berlin
+unexpected argument read
+❌ gog command failed: --account kolb.hannes@gmail.com sheets read 1kfJQt_AZezzBS47O1I6ULOe4pHQvCd4ytuTLFyI1oy0 --json
+unexpected argument read
+
+  ⏭️  Skipped (read failed)
+
+📋 Processing: HD25A23 - 2. Semester 25/26
+unexpected argument read
+❌ gog command failed: --account kolb.hannes@gmail.com sheets read 12iDLK1PvPFQlGfwSwB0b28NOnK8jY8GxEv3JH4LedGE --json
+unexpected argument read
+
+  ⏭️  Skipped (read failed)
+
+📋 Processing: → T:eams Trends (HD25A23)
+unexpected argument read
+❌ gog command failed: --account kolb.hannes@gmail.com sheets read 1HnI_Um58tbpOmPWVi3qan0u3uRloT4fswb5_EA2mSnI --json
+unexpected argument read
+
+  ⏭️  Skipped (read failed)
+
+=== Summary ===
+Processed sheets: 21
+Imported courses: 0
+Skipped: 21
+Conflicts: 0
+Errors: 21
+
+❌ Errors:
+  - Read failed: HD21A21 - 6. Semester 23/24
+  - Read failed: HD21A21 - 5. Semester 23/24
+  - Read failed: HD22A21 - 3. Semester 23/24
+  - Read failed: HD23A21 - 6. Semester 25/26
+  - Read failed: HD23A21 - 5. Semester 25/26
+  - Read failed: HD23A23 - 6. Semester 25/26
+  - Read failed: HD23A21 - 4. Semester 24/25
+  - Read failed: HD23A21 - 3. Semester 24/25
+  - Read failed: HD23A23 - 2. Semester 23/24
+  - Read failed: HD23A23 - 1. Semester 23/24
+  - Read failed: HD23A23 - 3. Semester 24/25
+  - Read failed: HD24A23 - 4. Semester 25/26 - AUSLAND
+  - Read failed: HD24B21 - 3. Semester 25/26
+  - Read failed: HD24B21 - 4. Semester 25/26 - Rhön im 5. Semester planen
+  - Read failed: Übersicht - IRM Insta Posts (HD24A23)
+  - Read failed: HD24A23: Besprechung Gliederung PAII
+  - Read failed: HD24A23 - Food Selection at Berliner Republik
+  - Read failed: HD24A23 Gruppen - Berlin Poster Präsentationen
+  - Read failed: HD24A23 + HIP: Room Allocation Berlin
+  - Read failed: HD25A23 - 2. Semester 25/26
+  - Read failed: → T:eams Trends (HD25A23)
+
+✅ Import complete!

@@ -1,0 +1,48 @@
+=== Import All Semester Plans ===
+
+✅ Found 12 relevant sheets
+
+📋 Abfrage Bachelorprüfung HD22A21 (Antworten)
+  ⚠️  No header found
+📋 HD22A21 - 3. Semester 23/24
+  ✅ Imported 0, conflicts 8
+📋 HD22A21 - 4. Semester 23/24
+  ✅ Imported 0, conflicts 0
+📋 HD22A21 - 2. Semester 22/23
+  ✅ Imported 10, conflicts 0
+📋 HD23A23 - 6. Semester 25/26
+  ✅ Imported 9, conflicts 4
+📋 HD23A23 - 2. Semester 23/24
+  ✅ Imported 0, conflicts 14
+📋 HD23A23 - 1. Semester 23/24
+  ✅ Imported 12, conflicts 1
+📋 HD23A23 - 3. Semester 24/25
+  ✅ Imported 8, conflicts 2
+📋 HD24B21 - 3. Semester 25/26
+  ✅ Imported 4, conflicts 0
+📋 HD24B21 - 4. Semester 25/26 - Rhön im 5. Semester planen
+  ✅ Imported 2, conflicts 1
+📋 HD25A23 - 2. Semester 25/26
+  ✅ Imported 14, conflicts 0
+📋 → T:eams Trends (HD25A23)
+  ⚠️  No header found
+
+
+=== FINAL SUMMARY ===
+Sheets processed: 12
+Total imported: 59
+Total conflicts: 30
+Skipped sheets: 2
+
+📊 Per-sheet breakdown:
+  HD22A21 - HD22A21 - 3. Semester 23/24: 0 new, 8 existing
+  HD22A21 - HD22A21 - 2. Semester 22/23: 10 new, 0 existing
+  HD23A23 - HD23A23 - 6. Semester 25/26: 9 new, 4 existing
+  HD23A23 - HD23A23 - 2. Semester 23/24: 0 new, 14 existing
+  HD23A23 - HD23A23 - 1. Semester 23/24: 12 new, 1 existing
+  HD23A23 - HD23A23 - 3. Semester 24/25: 8 new, 2 existing
+  HD24B21 - HD24B21 - 3. Semester 25/26: 4 new, 0 existing
+  HD24B21 - HD24B21 - 4. Semester 25/26 - Rhön im 5. Semester planen: 2 new, 1 existing
+  HD25A23 - HD25A23 - 2. Semester 25/26: 14 new, 0 existing
+
+✅ Import complete!

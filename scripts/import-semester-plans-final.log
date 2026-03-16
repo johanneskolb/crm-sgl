@@ -1,0 +1,82 @@
+=== Import Semester Plans - Final Version ===
+
+🔍 Searching Drive for all semester sheets...
+
+✅ Found 12 relevant sheets:
+
+  - Abfrage Bachelorprüfung HD22A21 (Antworten) (HD22A21)
+  - HD22A21 - 3. Semester 23/24 (HD22A21)
+  - HD22A21 - 4. Semester 23/24 (HD22A21)
+  - HD22A21 - 2. Semester 22/23 (HD22A21)
+  - HD23A23 - 6. Semester 25/26 (HD23A23)
+  - HD23A23 - 2. Semester 23/24 (HD23A23)
+  - HD23A23 - 1. Semester 23/24 (HD23A23)
+  - HD23A23 - 3. Semester 24/25 (HD23A23)
+  - HD24B21 - 3. Semester 25/26 (HD24B21)
+  - HD24B21 - 4. Semester 25/26 - Rhön im 5. Semester planen (HD24B21)
+  - HD25A23 - 2. Semester 25/26 (HD25A23)
+  - → T:eams Trends (HD25A23) (HD25A23)
+
+📊 Processing sheets...
+
+
+📋 Abfrage Bachelorprüfung HD22A21 (Antworten)
+  ⏭️  Skipped (no header row)
+
+📋 HD22A21 - 3. Semester 23/24
+  📊 Header at row 13, lecturer col 5, course col 2
+  ✅ 0 courses imported
+
+📋 HD22A21 - 4. Semester 23/24
+  📊 Header at row 13, lecturer col 5, course col 2
+  ✅ 0 courses imported
+
+📋 HD22A21 - 2. Semester 22/23
+  📊 Header at row 13, lecturer col 5, course col 2
+  ✅ 0 courses imported
+
+📋 HD23A23 - 6. Semester 25/26
+  📊 Header at row 13, lecturer col 5, course col 2
+Error: in prepare, no such table: lecturers
+Error: in prepare, no such table: lecturers
+  ✅ 0 courses imported
+
+📋 HD23A23 - 2. Semester 23/24
+  📊 Header at row 13, lecturer col 5, course col 2
+  ✅ 0 courses imported
+
+📋 HD23A23 - 1. Semester 23/24
+  📊 Header at row 13, lecturer col 5, course col 2
+  ✅ 0 courses imported
+
+📋 HD23A23 - 3. Semester 24/25
+  📊 Header at row 13, lecturer col 5, course col 2
+  ✅ 0 courses imported
+
+📋 HD24B21 - 3. Semester 25/26
+  📊 Header at row 13, lecturer col 5, course col 2
+  ✅ 0 courses imported
+
+📋 HD24B21 - 4. Semester 25/26 - Rhön im 5. Semester planen
+  📊 Header at row 13, lecturer col 5, course col 2
+  ✅ 0 courses imported
+
+📋 HD25A23 - 2. Semester 25/26
+  📊 Header at row 13, lecturer col 5, course col 2
+  ✅ 0 courses imported
+
+📋 → T:eams Trends (HD25A23)
+  ⏭️  Skipped (no header row)
+
+
+=== Summary ===
+Sheets found: 12
+Sheets processed: 10
+Courses imported: 0
+Skipped: 2
+Conflicts: 0
+Errors: 2
+
+❌ Errors:
+  - No header: Abfrage Bachelorprüfung HD22A21 (Antworten)
+  - No header: → T:eams Trends (HD25A23)
