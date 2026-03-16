@@ -30,61 +30,101 @@ def list_lecturers(
     db: Session = Depends(get_db),
     _: models.User = Depends(require_editor_or_admin),
 ):
-    query = db.query(models.Lecturer)
+    query = db.query(models.Lecturer).options(selectinload(models.Lecturer.courses))
     if q:
-        like = f"%{q}%"
-        # Search in lecturer fields
-        lecturer_match = (
-            models.Lecturer.name.ilike(like)
-            | models.Lecturer.contact.ilike(like)
-            | models.Lecturer.nationality.ilike(like)
-            | models.Lecturer.professional_experience.ilike(like)
-            | models.Lecturer.lectures_held.ilike(like)
-            | models.Lecturer.focus_topics.ilike(like)
-            | models.Lecturer.contact_from.ilike(like)
-            | models.Lecturer.remarks.ilike(like)
-        )
+        q_normalized = q.strip().lower()
         
-        # Also match lecturers who supervised theses containing the search term
-        # We use a join to find students with matching thesis titles and then check if
-        # any of their supervisors match lecturer names (using LIKE for fuzzy match)
-        thesis_match_subquery = (
-            db.query(models.StudentAlumni)
-            .filter(
-                models.StudentAlumni.project1_title.ilike(like)
-                | models.StudentAlumni.project2_title.ilike(like)
-                | models.StudentAlumni.bachelor_title.ilike(like)
-            )
-        )
+        # Check if query is asking for "scientific works" / thesis supervisors
+        thesis_synonyms = [
+            "wissenschaftliche arbeiten",
+            "wissenschaftliche arbeit",
+            "thesis",
+            "theses",
+            "abschlussarbeit",
+            "abschlussarbeiten",
+            "bachelor",
+            "bachelorarbeit",
+            "praxis",
+            "praxisarbeit",
+            "pa1",
+            "pa2",
+            "ba",
+        ]
         
-        matching_students = thesis_match_subquery.all()
-        supervisor_patterns = set()
-        for student in matching_students:
-            for supervisor in [student.project1_supervisor, student.project2_supervisor, student.bachelor_supervisor]:
-                if supervisor:
-                    supervisor_patterns.add(supervisor.strip())
+        is_thesis_query = any(syn in q_normalized for syn in thesis_synonyms)
         
-        # Build a filter that checks if lecturer name appears in any supervisor name
-        # (handles cases like "Bodo Kluxen" matching "Prof. Dr. Bodo Kluxen")
-        supervisor_match = None
-        if supervisor_patterns:
+        if is_thesis_query:
+            # Special case: return all lecturers who have supervised ANY thesis
+            # Get all unique supervisors from student_alumni table
+            all_students = db.query(models.StudentAlumni).all()
+            supervisor_names = set()
+            for student in all_students:
+                for supervisor in [student.project1_supervisor, student.project2_supervisor, student.bachelor_supervisor]:
+                    if supervisor and supervisor.strip():
+                        supervisor_names.add(supervisor.strip())
+            
+            # Match lecturers whose name appears in any supervisor field (fuzzy)
+            from sqlalchemy import or_
             supervisor_conditions = []
-            for pattern in supervisor_patterns:
-                # Split pattern into words and check if all appear in lecturer name
-                words = pattern.replace('Prof.', '').replace('Dr.', '').replace('.', '').split()
+            for supervisor_name in supervisor_names:
+                # Remove titles and split into words
+                words = supervisor_name.replace('Prof.', '').replace('Dr.', '').replace('.', '').split()
                 for word in words:
-                    if len(word) > 2:  # Skip titles and short words
+                    if len(word) > 2:  # Skip short words
                         supervisor_conditions.append(models.Lecturer.name.ilike(f"%{word}%"))
             
             if supervisor_conditions:
-                from sqlalchemy import or_
-                supervisor_match = or_(*supervisor_conditions)
-        
-        # Combine lecturer match with supervisor match
-        if supervisor_match is not None:
-            query = query.filter(lecturer_match | supervisor_match)
+                query = query.filter(or_(*supervisor_conditions))
         else:
-            query = query.filter(lecturer_match)
+            # Normal search: search in all lecturer fields + thesis titles
+            like = f"%{q}%"
+            lecturer_match = (
+                models.Lecturer.name.ilike(like)
+                | models.Lecturer.contact.ilike(like)
+                | models.Lecturer.nationality.ilike(like)
+                | models.Lecturer.professional_experience.ilike(like)
+                | models.Lecturer.lectures_held.ilike(like)
+                | models.Lecturer.focus_topics.ilike(like)
+                | models.Lecturer.contact_from.ilike(like)
+                | models.Lecturer.remarks.ilike(like)
+            )
+            
+            # Also match lecturers who supervised theses containing the search term
+            thesis_match_subquery = (
+                db.query(models.StudentAlumni)
+                .filter(
+                    models.StudentAlumni.project1_title.ilike(like)
+                    | models.StudentAlumni.project2_title.ilike(like)
+                    | models.StudentAlumni.bachelor_title.ilike(like)
+                )
+            )
+            
+            matching_students = thesis_match_subquery.all()
+            supervisor_patterns = set()
+            for student in matching_students:
+                for supervisor in [student.project1_supervisor, student.project2_supervisor, student.bachelor_supervisor]:
+                    if supervisor:
+                        supervisor_patterns.add(supervisor.strip())
+            
+            # Build a filter that checks if lecturer name appears in any supervisor name
+            supervisor_match = None
+            if supervisor_patterns:
+                from sqlalchemy import or_
+                supervisor_conditions = []
+                for pattern in supervisor_patterns:
+                    words = pattern.replace('Prof.', '').replace('Dr.', '').replace('.', '').split()
+                    for word in words:
+                        if len(word) > 2:
+                            supervisor_conditions.append(models.Lecturer.name.ilike(f"%{word}%"))
+                
+                if supervisor_conditions:
+                    supervisor_match = or_(*supervisor_conditions)
+            
+            # Combine lecturer match with supervisor match
+            if supervisor_match is not None:
+                query = query.filter(lecturer_match | supervisor_match)
+            else:
+                query = query.filter(lecturer_match)
     
     return query.order_by(models.Lecturer.name.asc()).all()
 

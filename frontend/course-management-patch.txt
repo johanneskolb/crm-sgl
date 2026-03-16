@@ -1,0 +1,253 @@
+## Course Management Feature - UI Variant B
+## This patch adds course assignment management to the lecturer edit form
+
+### 1. Add state variables after line 90 (after selectedStudent state):
+
+  // Course management for lecturers
+  const [availableCohorts] = useState(['HD21A21', 'HD22A21', 'HD23A23', 'HD24B21', 'HD25A23'])
+  const [availableCourseNames, setAvailableCourseNames] = useState([])
+  const [newCourse, setNewCourse] = useState({ course_name: '', subject: '', semester: '' })
+  const [courseAutocomplete, setCourseAutocomplete] = useState({ cohort: false, course: false })
+
+### 2. Add function to load available course names (after loadAll function):
+
+  async function loadAvailableCourseNames() {
+    if (!token) return
+    try {
+      // Fetch all lecturers to get unique course names
+      const allLecturers = await api('/api/lecturers')
+      const courseNames = new Set()
+      allLecturers.forEach(lecturer => {
+        lecturer.courses?.forEach(course => {
+          if (course.course_name) courseNames.add(course.course_name)
+        })
+      })
+      setAvailableCourseNames(Array.from(courseNames).sort())
+    } catch (err) {
+      console.error('Failed to load course names:', err)
+    }
+  }
+
+### 3. Add useEffect to load course names when entering lecturers tab:
+
+  useEffect(() => {
+    if (activeTab === 'lecturers' && token) {
+      loadAvailableCourseNames()
+    }
+  }, [activeTab, token])
+
+### 4. Add course management functions:
+
+  async function addCourse(e) {
+    e.preventDefault()
+    if (!selectedLecturer || !newCourse.course_name || !newCourse.semester) return
+    
+    try {
+      await api(`/api/lecturers/${selectedLecturer.id}/courses`, {
+        method: 'POST',
+        body: JSON.stringify(newCourse)
+      })
+      setNewCourse({ course_name: '', subject: '', semester: '' })
+      // Reload lecturer data
+      const updated = await api(`/api/lecturers?q=${encodeURIComponent(selectedLecturer.name)}`)
+      const lecturer = updated.find(l => l.id === selectedLecturer.id)
+      if (lecturer) {
+        setSelectedLecturer(lecturer)
+        setEditLecturerForm({ ...lecturer, alumni_student_id: lecturer.alumni_student_id || '' })
+      }
+      loadAll()
+    } catch (err) {
+      setError(err.message)
+    }
+  }
+
+  async function removeCourse(courseId) {
+    if (!selectedLecturer) return
+    
+    try {
+      await api(`/api/lecturers/${selectedLecturer.id}/courses/${courseId}`, {
+        method: 'DELETE'
+      })
+      // Reload lecturer data
+      const updated = await api(`/api/lecturers?q=${encodeURIComponent(selectedLecturer.name)}`)
+      const lecturer = updated.find(l => l.id === selectedLecturer.id)
+      if (lecturer) {
+        setSelectedLecturer(lecturer)
+        setEditLecturerForm({ ...lecturer, alumni_student_id: lecturer.alumni_student_id || '' })
+      }
+      loadAll()
+    } catch (err) {
+      setError(err.message)
+    }
+  }
+
+### 5. UI component to insert after alumni_student_id input in edit form (around line 538):
+
+                  {/* Course Management Section - UI Variant B */}
+                  <div style={{marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '2px solid #eee'}}>
+                    <h4 style={{marginBottom: '1rem'}}>{t('lecturers.courseManagement') || 'Kurszuordnungen verwalten'}</h4>
+                    
+                    {/* Display existing courses */}
+                    {selectedLecturer.courses && selectedLecturer.courses.length > 0 ? (
+                      <div style={{marginBottom: '1rem'}}>
+                        <strong>{t('lecturers.assignedCourses') || 'Zugeordnete Kurse'}:</strong>
+                        <ul style={{listStyle: 'none', padding: 0, marginTop: '0.5rem'}}>
+                          {selectedLecturer.courses.map(course => (
+                            <li key={course.id} style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              padding: '0.5rem',
+                              marginBottom: '0.25rem',
+                              backgroundColor: '#f5f5f5',
+                              borderRadius: '4px'
+                            }}>
+                              <span>
+                                <strong>{course.course_name}</strong>
+                                {course.subject && ` (${course.subject})`}
+                                {course.semester && ` - ${course.semester}`}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => removeCourse(course.id)}
+                                className="danger"
+                                style={{padding: '0.25rem 0.5rem', fontSize: '0.85rem'}}
+                              >
+                                ✕
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : (
+                      <p style={{color: '#666', fontSize: '0.9rem', marginBottom: '1rem'}}>
+                        {t('lecturers.noCourses') || 'Keine Kurse zugeordnet'}
+                      </p>
+                    )}
+
+                    {/* Add new course form */}
+                    <div style={{border: '1px solid #ddd', padding: '1rem', borderRadius: '4px', backgroundColor: '#fafafa'}}>
+                      <strong style={{display: 'block', marginBottom: '0.5rem'}}>
+                        {t('lecturers.addCourse') || 'Kurs hinzufügen'}:
+                      </strong>
+                      <form onSubmit={addCourse} style={{display: 'flex', flexDirection: 'column', gap: '0.5rem'}}>
+                        {/* Cohort autocomplete */}
+                        <div style={{position: 'relative'}}>
+                          <input
+                            type="text"
+                            placeholder={t('lecturers.cohort') || 'Kohorte (z.B. HD25A23)'}
+                            value={newCourse.semester}
+                            onChange={(e) => {
+                              setNewCourse({ ...newCourse, semester: e.target.value })
+                              setCourseAutocomplete({ ...courseAutocomplete, cohort: e.target.value.length > 0 })
+                            }}
+                            onBlur={() => setTimeout(() => setCourseAutocomplete({ ...courseAutocomplete, cohort: false }), 200)}
+                            required
+                          />
+                          {courseAutocomplete.cohort && newCourse.semester && (
+                            <div style={{
+                              position: 'absolute',
+                              top: '100%',
+                              left: 0,
+                              right: 0,
+                              backgroundColor: 'white',
+                              border: '1px solid #ccc',
+                              borderRadius: '4px',
+                              maxHeight: '150px',
+                              overflowY: 'auto',
+                              zIndex: 1000,
+                              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                            }}>
+                              {availableCohorts
+                                .filter(c => c.toLowerCase().includes(newCourse.semester.toLowerCase()))
+                                .map(cohort => (
+                                  <div
+                                    key={cohort}
+                                    onMouseDown={() => {
+                                      setNewCourse({ ...newCourse, semester: cohort })
+                                      setCourseAutocomplete({ ...courseAutocomplete, cohort: false })
+                                    }}
+                                    style={{
+                                      padding: '0.5rem',
+                                      cursor: 'pointer',
+                                      borderBottom: '1px solid #eee'
+                                    }}
+                                    onMouseEnter={(e) => e.target.style.backgroundColor = '#f0f0f0'}
+                                    onMouseLeave={(e) => e.target.style.backgroundColor = 'white'}
+                                  >
+                                    {cohort}
+                                  </div>
+                                ))
+                              }
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Course name autocomplete */}
+                        <div style={{position: 'relative'}}>
+                          <input
+                            type="text"
+                            placeholder={t('lecturers.courseName') || 'Vorlesungsname'}
+                            value={newCourse.course_name}
+                            onChange={(e) => {
+                              setNewCourse({ ...newCourse, course_name: e.target.value })
+                              setCourseAutocomplete({ ...courseAutocomplete, course: e.target.value.length > 0 })
+                            }}
+                            onBlur={() => setTimeout(() => setCourseAutocomplete({ ...courseAutocomplete, course: false }), 200)}
+                            required
+                          />
+                          {courseAutocomplete.course && newCourse.course_name && availableCourseNames.length > 0 && (
+                            <div style={{
+                              position: 'absolute',
+                              top: '100%',
+                              left: 0,
+                              right: 0,
+                              backgroundColor: 'white',
+                              border: '1px solid #ccc',
+                              borderRadius: '4px',
+                              maxHeight: '200px',
+                              overflowY: 'auto',
+                              zIndex: 1000,
+                              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                            }}>
+                              {availableCourseNames
+                                .filter(c => c.toLowerCase().includes(newCourse.course_name.toLowerCase()))
+                                .slice(0, 10)
+                                .map(courseName => (
+                                  <div
+                                    key={courseName}
+                                    onMouseDown={() => {
+                                      setNewCourse({ ...newCourse, course_name: courseName })
+                                      setCourseAutocomplete({ ...courseAutocomplete, course: false })
+                                    }}
+                                    style={{
+                                      padding: '0.5rem',
+                                      cursor: 'pointer',
+                                      borderBottom: '1px solid #eee',
+                                      fontSize: '0.9rem'
+                                    }}
+                                    onMouseEnter={(e) => e.target.style.backgroundColor = '#f0f0f0'}
+                                    onMouseLeave={(e) => e.target.style.backgroundColor = 'white'}
+                                  >
+                                    {courseName}
+                                  </div>
+                                ))
+                              }
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Subject/short name (optional) */}
+                        <input
+                          type="text"
+                          placeholder={t('lecturers.courseSubject') || 'Kurzbezeichnung (optional)'}
+                          value={newCourse.subject}
+                          onChange={(e) => setNewCourse({ ...newCourse, subject: e.target.value })}
+                        />
+
+                        <button type="submit" style={{marginTop: '0.5rem'}}>
+                          ➕ {t('lecturers.addCourseButton') || 'Kurs hinzufügen'}
+                        </button>
+                      </form>
+                    </div>
+                  </div>
